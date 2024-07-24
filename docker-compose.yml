@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: DockerFile.backend
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=base64:3wFgN68MPXb3KLOuBlxg7YAx9Q9+nXUOMZX3sbK3bUs=
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=apibackend
+      - DB_USERNAME=root
+      - DB_PASSWORD=codigo1mysql
+    
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: codigo1mysql
+      MYSQL_DATABASE: apibackend
+     
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  dbdata:
