@@ -2,6 +2,7 @@
 import { GiPositionMarker } from "react-icons/gi";
 import { FaPhone } from "react-icons/fa6";
 import { SiGmail } from "react-icons/si";
+import logo from "/src/assets/logo/logo-perfil.jpeg"
 
 export default function ProfileSection() {
   return (
@@ -10,7 +11,7 @@ export default function ProfileSection() {
       <figure className=" w-72 h-72 flex flex-col items-start justify-center p-4">
         
          
-        <img  className="rounded-full object-cover w-full h-full " src="/src/assets/logo/logo-perfil.jpeg" alt="profile" />
+        <img  className="rounded-full object-cover w-full h-full " src={logo} alt="profile" />
       
       <figcaption className="p-4 pb-0 text-lg font-bold">Julian Camilo Ayala Ochoa</figcaption>
 

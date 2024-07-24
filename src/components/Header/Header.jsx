@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-
+import logo from "/src/assets/logo/logo-perfil.jpeg"
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -26,7 +26,7 @@ export default function Header({ onMenuToggle }) {
             <div className="w-10 h-10">
               <img
                 className="rounded-full w-full h-full object-cover"
-                src="/src/assets/logo/logo-perfil.jpeg"
+                src={logo}
                 alt="logo"
               />
             </div>
