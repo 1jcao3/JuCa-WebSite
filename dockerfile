@@ -17,7 +17,7 @@ WORKDIR /var/www/html
 
 # Copiar el código de la aplicación al contenedor
 COPY apibackend/ .
-
+COPY apibackend /var/www/html
 # Instalar dependencias de Composer
 RUN composer install
 
