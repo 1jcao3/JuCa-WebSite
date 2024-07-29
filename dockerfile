@@ -13,7 +13,7 @@ RUN apt-get update && \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Establecer el directorio de trabajo
-WORKDIR /var/www/html
+WORKDIR /apibackend
 
 # Copiar el código de la aplicación al contenedor
 COPY apibackend/ .
