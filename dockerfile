@@ -24,8 +24,10 @@ RUN composer install
 # Establecer permisos para el almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+RUN a2enmod rewrite
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 # Exponer el puerto que utilizará Apache
-EXPOSE 8000
+EXPOSE 80
 
 # Comando para ejecutar Apache
 CMD ["apache2-foreground"]
