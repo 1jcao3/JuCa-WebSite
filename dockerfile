@@ -25,7 +25,7 @@ RUN composer install
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Exponer el puerto que utilizará Apache
-EXPOSE 80
+EXPOSE 8000
 
 # Comando para ejecutar Apache
 CMD ["apache2-foreground"]
