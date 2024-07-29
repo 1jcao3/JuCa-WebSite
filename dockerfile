@@ -15,9 +15,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Establecer el directorio de trabajo
 WORKDIR /var/www/html
 
+COPY . .
+
 # Copiar el código de la aplicación al contenedor
 COPY apibackend/ .
-COPY apibackend /var/www/html
+
 # Instalar dependencias de Composer
 RUN composer install
 
