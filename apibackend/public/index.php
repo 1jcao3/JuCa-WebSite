@@ -1,17 +1,35 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
 
 define('LARAVEL_START', microtime(true));
 
-// Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
-}
-
-// Register the Composer autoloader...
+// Composer autoload
 require __DIR__.'/../vendor/autoload.php';
 
-// Bootstrap Laravel and handle the request...
-(require_once __DIR__.'/../bootstrap/app.php')
-    ->handleRequest(Request::capture());
+// Configuración personalizada
+$app = Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        // Agregar middleware aquí si es necesario
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        // Manejar excepciones aquí si es necesario
+    })
+    ->create();
+
+// Manejo de la solicitud
+$response = $app->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$app->terminate($request, $response);
