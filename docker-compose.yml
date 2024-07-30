@@ -12,7 +12,7 @@ services:
       - APP_DEBUG=true
       - APP_KEY=base64:3wFgN68MPXb3KLOuBlxg7YAx9Q9+nXUOMZX3sbK3bUs=
       - DB_CONNECTION=mysql
-      - DB_HOST=mysql
+      - DB_HOST=juca-mysql-1
       - DB_PORT=3306
       - DB_DATABASE=apibackend
       - DB_USERNAME=root

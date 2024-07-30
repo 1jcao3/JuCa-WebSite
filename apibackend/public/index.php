@@ -32,4 +32,4 @@ $response = $app->handle(
 
 $response->send();
 
-$app->terminate($request, $response);
+$app->terminate();
