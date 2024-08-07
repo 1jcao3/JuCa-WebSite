@@ -12,13 +12,12 @@ RUN apt-get update && \
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establecer el directorio de trabajo
+# Establecer el directorio de trabajo   
 WORKDIR /var/www/html
-
-COPY . .
 
 # Copiar el código de la aplicación al contenedor
 COPY apibackend/ .
+COPY . .
 
 # Instalar dependencias de Composer
 RUN composer install
@@ -26,10 +25,14 @@ RUN composer install
 # Establecer permisos para el almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite
+
+# Copiar la configuración de Apache
 COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+
 # Exponer el puerto que utilizará Apache
-EXPOSE 80
+EXPOSE 8000
 
 # Comando para ejecutar Apache
 CMD ["apache2-foreground"]
