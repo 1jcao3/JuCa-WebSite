@@ -36,5 +36,4 @@
 
     # Comando para ejecutar Apache
     CMD ["apache2-foreground"]
-    RUN php artisan migrate --force
-    RUN php artisan db:seed
+   
