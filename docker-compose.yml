@@ -22,9 +22,7 @@ services:
       - ./apibackend:/var/www/html
     depends_on:
       - mysql
-    post_deploy:
-      - php artisan migrate --force
-      - php artisan db:seed --force
+  
 
   mysql:
     image: mysql:5.7
