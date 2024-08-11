@@ -18,7 +18,7 @@ services:
       - DB_DATABASE=apibackend
       - DB_USERNAME=root
       - DB_PASSWORD=codigo1mysql
-    volumes:
+    volumes:  
       - ./apibackend:/var/www/html
     depends_on:
       - mysql
@@ -30,6 +30,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: codigo1mysql
       MYSQL_DATABASE: apibackend
+      MYSQL_USER: root
+      MYSQL_PASSWORD: codigo1mysql
     networks:
       - juca_backend-network 
     volumes:
