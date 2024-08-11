@@ -17,7 +17,7 @@
 
     # Copiar el código de la aplicación al contenedor
     COPY apibackend/ .
-    COPY . .
+   
 
     # Instalar dependencias de Composer
     RUN composer install
@@ -39,7 +39,7 @@
     EXPOSE 80
 
     # Comando para ejecutar Apache
-    CMD ["sh", "-c", "php artisan migrate --force && apache2-foreground"]
+    CMD ["apache2-foreground"]
 
 
     # RUN php artisan migrate --force
