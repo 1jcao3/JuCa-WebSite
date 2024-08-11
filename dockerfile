@@ -27,7 +27,9 @@
 
     # Habilitar mod_rewrite de Apache
     RUN a2enmod rewrite
-
+    RUN php artisan config:cache
+    RUN php artisan route:cache
+    RUN php artisan view:cache
     # Copiar la configuración de Apache
     COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
