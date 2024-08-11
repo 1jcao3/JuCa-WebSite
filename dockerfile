@@ -30,7 +30,7 @@
     RUN php artisan config:cache
     RUN php artisan route:cache
     RUN php artisan view:cache
-  
+
 
     # Copiar la configuración de Apache
     COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
@@ -39,5 +39,5 @@
     EXPOSE 80
 
     # Comando para ejecutar Apache
-    CMD ["sh", "/usr/local/bin/init.sh"]
-   
+    CMD ["apache2-foreground"]
+    # RUN php artisan migrate --force
