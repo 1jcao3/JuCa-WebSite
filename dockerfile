@@ -39,5 +39,5 @@
     EXPOSE 80
 
     # Comando para ejecutar Apache
-    CMD ["apache2-foreground"]
+    CMD ["sh", "/usr/local/bin/init.sh"]
    
