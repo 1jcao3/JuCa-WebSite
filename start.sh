@@ -1,18 +1,12 @@
 #!/bin/bash
 
-# Inicia MySQL
-service mysql start
-
-# Espera a que MySQL esté listo
-while ! mysqladmin ping -h"localhost" --silent; do
+# Esperar a que la base de datos esté disponible
+while ! nc -z mysql 3306; do
     sleep 1
 done
 
-# Crea la base de datos si no existe
-mysql -e "CREATE DATABASE IF NOT EXISTS apibackend;"
-
-# Ejecuta las migraciones de Laravel
+# Ejecutar migraciones de Laravel
 php artisan migrate --force
 
-# Inicia Apache
+# Iniciar Apache
 apache2-foreground
