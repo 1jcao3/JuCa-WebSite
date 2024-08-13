@@ -1,51 +1,39 @@
-# Usar la imagen oficial de PHP con Apache
-FROM php:8.3-apache
+    # Usar la imagen oficial de PHP con Apache
+    FROM php:8.3-apache
 
-# Instalar extensiones de PHP necesarias y herramientas adicionales
-RUN apt-get update && \
-    apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    default-mysql-server \
-    default-mysql-client \
-    && docker-php-ext-install pdo pdo_mysql zip
+    # Instalar extensiones de PHP necesarias y herramientas adicionales
+    RUN apt-get update && \
+        apt-get install -y \
+        git \
+        unzip \
+        libzip-dev \
+        && docker-php-ext-install pdo pdo_mysql zip
 
-# Instalar Composer
+    # Instalar Composer
+    COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+    # Establecer el directorio de trabajo   
+    WORKDIR /var/www/html
+
+    # Copiar el código de la aplicación al contenedor
+    COPY apibackend/ .
+   
+
+    # Instalar dependencias de Composer
+    RUN composer install
+
+    # Establecer permisos para el almacenamiento y caché
+    RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+    # Habilitar mod_rewrite de Apache
+    RUN a2enmod rewrite
+    RUN php artisan config:cache
+    RUN php artisan route:cache
+    RUN php artisan view:cache
 
 
-
-# Instalar Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Establecer el directorio de trabajo   
-WORKDIR /var/www/html
-
-# Copiar el código de la aplicación al contenedor
-COPY apibackend/ .
-# Establecer el directorio de trabajo   
-WORKDIR /var/www/html
-
-# Copiar composer.json y composer.lock (si existe)
-COPY composer.json composer.lock* ./
-
-# Verificar versiones e instalar dependencias
-RUN php -v && \
-    composer --version && \
-    composer clear-cache && \
-    php -d memory_limit=-1 /usr/bin/composer install --no-interaction --no-dev --optimize-autoloader --verbose
-
-# Copiar el resto del código de la aplicación al contenedor
-COPY . .
-
-# Establecer permisos para el almacenamiento y caché
-RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Habilitar mod_rewrite de Apache
-RUN a2enmod rewrite
-
-# Copiar la configuración de Apache
-COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+    # Copiar la configuración de Apache
+    COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
 # Crear script de inicio
 RUN echo '#!/bin/bash\n\
