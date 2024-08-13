@@ -1,0 +1,53 @@
+# Usar la imagen oficial de PHP con Apache
+FROM php:8.3-apache
+
+# Instalar extensiones de PHP necesarias y herramientas adicionales
+RUN apt-get update && \
+    apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    default-mysql-server \
+    default-mysql-client \
+    && docker-php-ext-install pdo pdo_mysql zip
+
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Establecer el directorio de trabajo   
+WORKDIR /var/www/html
+
+# Copiar el código de la aplicación al contenedor
+COPY . .
+
+# Instalar dependencias de Composer
+RUN composer install --no-interaction --no-dev --optimize-autoloader
+
+# Establecer permisos para el almacenamiento y caché
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+# Habilitar mod_rewrite de Apache
+RUN a2enmod rewrite
+
+# Copiar la configuración de Apache
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+
+# Crear script de inicio
+RUN echo '#!/bin/bash\n\
+    service mysql start\n\
+    while ! mysqladmin ping -h"localhost" --silent; do\n\
+        sleep 1\n\
+    done\n\
+    mysql -e "CREATE DATABASE IF NOT EXISTS apibackend;"\n\
+    php artisan migrate --force\n\
+    php artisan config:cache\n\
+    php artisan route:cache\n\
+    php artisan view:cache\n\
+    apache2-foreground' > /usr/local/bin/start.sh \
+    && chmod +x /usr/local/bin/start.sh
+
+# Exponer el puerto que utilizará Apache
+EXPOSE 80
+
+# Comando para ejecutar el script de inicio
+CMD ["/usr/local/bin/start.sh"] 
