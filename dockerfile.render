@@ -35,6 +35,10 @@ RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
 
+
+    # Asegúrate de tener esta línea para errores de PHP
+RUN echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/docker-php-errors.ini
+
 # Exponer el puerto que utilizará Apache
 EXPOSE 80
 
