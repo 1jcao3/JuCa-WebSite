@@ -7,7 +7,7 @@ export default function Projects() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://juca-website.onrender.com/api/projects')
+    fetch('http://127.0.0.1:8000/api/projects')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
