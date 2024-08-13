@@ -1,14 +1,15 @@
 # Usar la imagen oficial de PHP con Apache
 FROM php:8.3-apache
 
-# Instalar extensiones de PHP necesarias
+# Instalar extensiones de PHP necesarias y herramientas adicionales
 RUN apt-get update && \
     apt-get install -y \
     git \
     unzip \
     libzip-dev \
     netcat \
-    && docker-php-ext-install pdo pdo_mysql zip
+    && docker-php-ext-install pdo pdo_mysql zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
