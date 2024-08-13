@@ -13,7 +13,7 @@ services:
       - APP_DEBUG=true
       - APP_KEY=base64:3wFgN68MPXb3KLOuBlxg7YAx9Q9+nXUOMZX3sbK3bUs=
       - DB_CONNECTION=mysql
-      - DB_HOST=127.0.0.1
+      - DB_HOST=mysql
       - DB_PORT=3306
       - DB_DATABASE=apibackend
       - DB_USERNAME=root
@@ -26,7 +26,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: juca-mysql-1
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: codigo1mysql
       MYSQL_DATABASE: apibackend
